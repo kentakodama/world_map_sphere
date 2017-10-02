@@ -1,0 +1,41 @@
+<html>
+<head>
+  <title>A D3 map</title>
+  <script src='https://d3js.org/d3.v4.min.js'></script>
+  <script src='countries.js'></script>
+</head>
+<body>
+  <script>
+
+  var width = 1540;
+  var height = 1166;
+
+  var svg = d3.select('body')
+  .append('svg')
+  .attr('width', width)
+  .attr('height', height);
+
+
+  var world = svg.append('g');
+  var geoEquirectangular = d3.geoEquirectangular()
+    .scale(150)
+  var geoPath = d3.geoPath()
+    .projection(geoEquirectangular);
+
+  world.selectAll('path')
+    .data(countries_json.features)
+    .enter()
+    .append('path')
+    .attr('fill', '#ccc')
+    .attr('d', geoPath);
+
+  g.selectAll( "path" )
+      .data( countries_json.features )
+      .enter()
+      .append( "path" )
+      .attr( "fill", "#ccc" )
+      .attr( "d", geoPath );
+
+  </script>
+</body>
+</html>
