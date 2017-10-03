@@ -2,7 +2,7 @@
   "name": "world.geo.json-master",
   "version": "1.0.0",
   "description": "To mock something fast and loose with geo-json data for the world, this is your fix. Legal status of this dataset: dubious?",
-  "main": "index.js",
+  "main": "index2.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

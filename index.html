@@ -3,6 +3,21 @@
   <title>A D3 map</title>
   <script src='https://d3js.org/d3.v4.min.js'></script>
   <script src='countries.js'></script>
+  <script src='capitals.js'></script>
+
+  <style media="screen">
+    .subunit-boundary {
+      /*fill: red;*/
+      stroke: #777;
+      stroke-width: 1.5;
+      /*stroke-dasharray: 2,2;*/
+      /*opacity: .7;*/
+      stroke-linejoin: round;
+      }
+
+
+
+  </style>
 </head>
 <body>
   <script>
@@ -17,24 +32,30 @@
 
 
   var world = svg.append('g');
-  var geoEquirectangular = d3.geoEquirectangular()
+  var geoAzimuthalEqual = d3.geoAzimuthalEqualArea()
     .scale(150)
   var geoPath = d3.geoPath()
-    .projection(geoEquirectangular);
+    .projection(geoAzimuthalEqual);
+
+  var score = 0
+  //var countries =
+  //var item = countries[Math.floor(Math.random()*countries.length)];
 
   world.selectAll('path')
     .data(countries_json.features)
     .enter()
     .append('path')
-    .attr('fill', '#ccc')
-    .attr('d', geoPath);
+    .attr('fill', 'black')
+    .attr('d', geoPath)
+    .attr("class", "subunit-boundary")
+    .on('click', function(d) {
+        console.log(d.properties.name);
+        if (d.properties.name === countryName) {
+          score ++;
+          console.log(score);
+        }
+      })
 
-  g.selectAll( "path" )
-      .data( countries_json.features )
-      .enter()
-      .append( "path" )
-      .attr( "fill", "#ccc" )
-      .attr( "d", geoPath );
 
   </script>
 </body>
