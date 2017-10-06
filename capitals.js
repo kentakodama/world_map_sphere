@@ -1149,7 +1149,7 @@ const capitals_json = [{
 	"lat": "51.5",
 	"lon": "-0.08333333333333333"
 }, {
-	"country": "United States",
+	"country": "United States of America",
 	"capital": "Washington, DC",
 	"lat": "38.88333333333333",
 	"lon": "-77.03333333333333"

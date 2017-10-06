@@ -4,6 +4,7 @@
   "description": "To mock something fast and loose with geo-json data for the world, this is your fix. Legal status of this dataset: dubious?",
   "main": "index2.html",
   "scripts": {
+    "build-css": "node-sass --include-path scss border_draw.scss main.css",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "kenta kodama",

@@ -4,59 +4,136 @@
   <script src='https://d3js.org/d3.v4.min.js'></script>
   <script src='countries.js'></script>
   <script src='capitals.js'></script>
-
+  <link rel="stylesheet" href="main.css">
   <style media="screen">
     .subunit-boundary {
       /*fill: red;*/
-      stroke: #777;
-      stroke-width: 1.5;
-      /*stroke-dasharray: 2,2;*/
+      stroke: #FFF;
+      stroke-width: 0.5;
+      stroke-dasharray: 420;
+      stroke-dashoffset: 600;
+      animation: dash 2s linear;
+      animation-fill-mode: forwards;
       /*opacity: .7;*/
       stroke-linejoin: round;
       }
-
-
+      .clicked {
+        fill: orange
+      }
+      @keyframes dash {
+        to {
+          stroke-dashoffset: 0;
+        }
+      }
+      .fill {
+        fill: #FFF !important;
+      }
 
   </style>
 </head>
 <body>
+
+  <button type="button" name="africa">Africa</button>
+  <button type="button" name="europe" onclick="goToEurope()">Europe</button>
+  <button type="button" name="north-america">North America</button>
+  <button type="button" name="south-america">South America</button>
+  <button type="button" name="asia">Asia</button>
+
+
   <script>
 
-  var width = 1540;
-  var height = 1166;
 
+  var width = 1100;
+  var height = 800;
+
+  //creating a svg canvas element
   var svg = d3.select('body')
   .append('svg')
   .attr('width', width)
   .attr('height', height);
 
+// background not necessary
+//   appending a background to the svg
+  svg.append('rect')
+    .attr('width', width)
+    .attr('height', height)
+    .attr('fill', "#0E242B")
 
+//g contains all the paths
+//path refers to shape created by the coordinates
+//need a g for every overlay?
+// gs are layers, need to append to svg every layer
   var world = svg.append('g');
-  var geoAzimuthalEqual = d3.geoAzimuthalEqualArea()
-    .scale(150)
+  var projection = d3.geoOrthographic()
+    .scale(220)
+    .rotate([-11, 0])
+    .center([0, 42.313])
+    .translate([width/2, height/2]);
+    //Path Generator, or Geo Path
+    //only need once to make map
   var geoPath = d3.geoPath()
-    .projection(geoAzimuthalEqual);
+    .projection(projection);
 
-  var score = 0
-  //var countries =
-  //var item = countries[Math.floor(Math.random()*countries.length)];
+    //projection method is drawing out the map coordinates
 
-  world.selectAll('path')
+    const capitalsHashMap = new Object();
+    capitals_json.forEach((nation) => {
+      capitalsHashMap[nation["country"]] = nation["capital"]
+    })
+
+//ALL invidivudal countries
+ //Select non-existent elements, bind the data, append the elements, and apply attributes
+  world.selectAll('path') //path doesnt exist
     .data(countries_json.features)
     .enter()
-    .append('path')
-    .attr('fill', 'black')
+    .append('path') //apending it here, every path is a country
+    .attr('fill', '#367D96')
     .attr('d', geoPath)
     .attr("class", "subunit-boundary")
-    .on('click', function(d) {
-        console.log(d.properties.name);
-        if (d.properties.name === countryName) {
-          score ++;
-          console.log(score);
-        }
+    .on('click', function(datum) {
+        d3.select(this).style("fill", "orange");
+        console.log(datum.properties.name);
+        console.log(capitalsHashMap[datum.properties.name]);
       })
 
+    var capitals = svg.append("g")
 
+    capitals.selectAll("path")
+      .data(capitals_json)
+      .enter()
+      .append("path")
+      .attr( "fill", "#900" )
+	    .attr( "stroke", "#999" )
+	    .attr( "d", geoPath );
+
+
+
+      function myFunction() {
+          alert('Hello');
+      }
+
+      function goToEurope() {
+        projection.rotate([-110, 0])
+      }
+
+
+
+
+
+
+    //
+
+    // $(document).ready(function () {
+
+
+    // });
+
+    // var score = 0
+    // //var countries =
+    // //var item = countries[Math.floor(Math.random()*countries.length)];
+    // countryName = "Mexico"
+    //
+    //
   </script>
 </body>
 </html>
